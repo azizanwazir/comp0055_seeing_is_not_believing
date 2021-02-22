@@ -1,5 +1,6 @@
 # COMP0055: Seeing is Not Believing
-Team segfault
+Azizan Wazir, Nithin Anand, Fehed Wasti
+UCL MEng Computer Science
 
 Implementation of the camouflage attack described by Xiao et. al. in their paper, Seeing is Not Believing (2019).
 
