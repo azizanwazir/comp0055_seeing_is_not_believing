@@ -7,9 +7,13 @@ This implementation generates attack images as described in the paper using DCCP
 
 Currently, the attack images and the dimensions of the output image (dimensions to be resized to) are:
 
-Attack Image        Output dimensions
-atk_jeff.jpg        (250, 203)
-atk_sheep.jpg       (229, 229)
-atk_ronnie.jpg      (172, 229)
-atk_cat.jpg         (124, 229)
+Attack Image | Output dimensions
+
+atk_jeff.jpg | (250, 203)
+
+atk_sheep.jpg | (229, 229)
+
+atk_ronnie.jpg | (172, 229)
+
+atk_cat.jpg | (124, 229)
 
