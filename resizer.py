@@ -7,6 +7,11 @@ from PIL import Image
 from termcolor import cprint
 import sys
 
+# Set this to the path of folder containing attack images
+FOLDER_PATH = "/mnt/WD_Blue_SATAData/Documents/Schoolwork/comp0055/comp0055_seeing_is_not_believing/attack_images/"
+
+# Sets the height and width of the resized image to this variable's value
+RESIZE_DIMENSIONS = 229
 
 class Resizers:
 
@@ -93,5 +98,5 @@ class CLI:
         self.selectResizer()
 
 
-CLI("/mnt/WD_Blue_SATAData/Documents/Schoolwork/comp0055/comp0055_seeing_is_not_believing/attack_images/",
-    229).startInterface()
+CLI(FOLDER_PATH,
+    RESIZE_DIMENSIONS).startInterface()
