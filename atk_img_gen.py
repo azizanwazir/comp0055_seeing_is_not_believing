@@ -2,6 +2,8 @@ import numpy as np
 import dccp
 import cv2
 import cvxpy as cvx
+import matplotlib.pyplot as plt
+from PIL import Image
 
 
 class AtkImgGenerator:
@@ -29,6 +31,14 @@ class AtkImgGenerator:
             CR[:, i] = CR[:, i] / CR[:, i].sum()
 
         return CL, CR
+
+    def resizeCV2(self, img, height, width):
+        # height, width is not the normal way picture dimensions are described
+        # but it's what you get back from .shape with cv2's imread
+        # i.e cv2.imread(picture).shape --> (height, width)
+        dim = (width, height)
+        img = cv2.resize(img, dim)
+        return img
 
     def GetPerturbationsCL(self, src, tgt, CL, e, IN_max, minmax):
         '''
@@ -188,3 +198,31 @@ class AtkImgGenerator:
 
         atk_img = src_img + delta_h
         return atk_img
+
+    def plot_img(self, img_var, title):
+        plt.figure(figsize=(20, 10))
+        plt.subplot(2, 2, 1)
+        plt.title(title)
+        plt.imshow(img_var, cmap='gray', vmin=0, vmax=255)
+        plt.show()
+
+
+class CLI:
+
+    def __init__(self, folder_path):
+        self.folder_path = folder_path
+        self.atk_gen = AtkImgGenerator()
+
+    def basicCLIWeak(self, tgt_img):
+        img_path = self.folder_path + tgt_img
+        img = cv2.imread(img_path, 0)
+        print("This is the target image")
+        self.atk_gen.plot_img(img, 'Target Image')
+        print("This is the image in its Weak Attack Form")
+        print(img.shape)
+        wk = self.atk_gen.WeakAttackFormGray(self.atk_gen.resizeCV2, 1231, 1000, img)
+        self.atk_gen.plot_img(wk, 'The Attack Image')
+
+
+cmd = CLI('/mnt/WD_Blue_SATAData/Documents/Schoolwork/comp0055/comp0055_seeing_is_not_believing/img/')
+cmd.basicCLIWeak('jeff.jpg')
