@@ -7,7 +7,6 @@ Implementation of the strong and weak camouflage attack forms described by Xiao 
 This implementation generates attack images as described in the paper using DCCP and CVXPY in Python in Google Colab. Generated attack images are in the attack_images folder.
 
 ~~Currently, the attack images and the dimensions of the output image (dimensions to be resized to) are:~~
-
 New attack images have been created and placed in the attack_images folder. All of these resize to (229, 229). The old attack images, output dimensions below, are still available and are placed in a folder inside the attack_image folder.
 
 ``` python
@@ -21,6 +20,8 @@ atk_ronnie.jpg  | (172, 229)
 
 atk_cat.jpg     | (124, 229)
 ```
+
+**16/03/2021:** We have found and proposed a new defence against attack images using random padding and cropping. This is demonstrated in the Colab notebook and has been found to work with all images we have tested on.
 
 **22/02/2021:** Pushed a new version of the scaling_attack notebook as I had forgotten to add an extra parameter to the strong attack form's get perturbation function. Have tested it and it is fixed. Next push will contain weak attack form images.
 
