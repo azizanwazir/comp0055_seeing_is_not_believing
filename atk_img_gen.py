@@ -159,7 +159,7 @@ class AtkImgGenerator:
 
         for row in range(0, s_m):
             delta_h[row, :] = self.GetPerturbationsCR(src_img[row, :], int_atk_img[row, :], CR, 0.01, IN_max, 'min')
-            sys.stdout.write("\r Processing row: {0}/{1}".format(row, t_n))
+            sys.stdout.write("\r Processing row: {0}/{1}".format(row, s_m))
             sys.flush()
             
         atk_img = src_img + delta_h
@@ -199,7 +199,7 @@ class AtkImgGenerator:
 
         for row in range(0, s_m):
             delta_h[row, :] = self.GetPerturbationsCR(src_img[row, :], int_atk_img[row, :], CR, 0.01, IN_max, 'max')
-            sys.stdout.write("\r Processing row: {0}/{1}".format(row, t_n))
+            sys.stdout.write("\r Processing row: {0}/{1}".format(row, s_m))
             sys.flush()
             
         atk_img = src_img + delta_h
