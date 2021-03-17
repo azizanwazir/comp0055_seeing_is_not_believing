@@ -4,7 +4,7 @@ import cv2
 import cvxpy as cvx
 import matplotlib.pyplot as plt
 from PIL import Image
-
+import sys
 
 class AtkImgGenerator:
 
@@ -89,7 +89,7 @@ class AtkImgGenerator:
         # Ensure problem is suitable for disciplined concave convex programming (dccp)
         assert dccp.is_dccp(prob)
 
-        result = prob.solve(method='dccp', verbose=True)
+        result = prob.solve(method='dccp', verbose=False)
 
         # Remove singleton dimensions
         delta_1 = np.squeeze(delta_1.value)
@@ -137,7 +137,7 @@ class AtkImgGenerator:
         # Get dimensions of source and target images
         s_m, s_n = src_img.shape  # m,n
         t_m, t_n = tgt_img.shape  # m',n'
-
+        
         # Returns approximations of scaling matrices
         CL, CR = self.GetCoefficients(Scale, s_m, s_n, t_m, t_n, IN_max)
 
@@ -148,17 +148,20 @@ class AtkImgGenerator:
 
         # delta_v = np.zeros(src_img.shape)
         delta_v = np.zeros((s_m, t_n))  # , dtype=np.uintc)
-
+        
         for col in range(0, t_n):
             delta_v[:, col] = self.GetPerturbationsCL(int_src_img[:, col], tgt_img[:, col], CL, 0.01, IN_max, 'min')
-
+            sys.stdout.write("\r Processing column: {0}/{1}".format(col, t_n))
+            sys.flush()
         int_atk_img = int_src_img + delta_v
 
         delta_h = np.zeros((src_img.shape))  # , dtype=np.uintc)
 
         for row in range(0, s_m):
             delta_h[row, :] = self.GetPerturbationsCR(src_img[row, :], int_atk_img[row, :], CR, 0.01, IN_max, 'min')
-
+            sys.stdout.write("\r Processing row: {0}/{1}".format(row, t_n))
+            sys.flush()
+            
         atk_img = src_img + delta_h
         return atk_img
 
@@ -186,7 +189,8 @@ class AtkImgGenerator:
 
         for col in range(0, t_n):
             delta_v[:, col] = self.GetPerturbationsCL(int_src_img[:, col], tgt_img[:, col], CL, 0.01, IN_max, 'max')
-
+            sys.stdout.write("\r Processing column: {0}/{1}".format(col, t_n))
+            sys.flush()
         src_img = Scale(tgt_img, s_m, s_n)
 
         int_atk_img = int_src_img + delta_v
@@ -195,7 +199,9 @@ class AtkImgGenerator:
 
         for row in range(0, s_m):
             delta_h[row, :] = self.GetPerturbationsCR(src_img[row, :], int_atk_img[row, :], CR, 0.01, IN_max, 'max')
-
+            sys.stdout.write("\r Processing row: {0}/{1}".format(row, t_n))
+            sys.flush()
+            
         atk_img = src_img + delta_h
         return atk_img
 
